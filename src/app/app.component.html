@@ -1,0 +1,79 @@
+<div class="container p-4">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="Settings">
+      <div class="container p-4">
+        <div class="row" align="center">
+          <div class="col 4">
+            <mat-form-field>
+              <mat-label>Project Id</mat-label>
+              <input matInput type="password" [(ngModel)]="projectId">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" align="center">
+          <div class="col 4">
+            <mat-form-field>
+              <mat-label>Auth Token</mat-label>
+              <input matInput type="password" [(ngModel)]="authToken">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" align="center">
+          <div class="col 4">
+            <button type="button" class="btn btn-primary" (click)="saveSettings()">Save</button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Deployer">
+      <div class="container p-4">
+        <div class="row p-4">
+          <div class="col-2">
+            <mat-label>Environment</mat-label>
+            <mat-select [(ngModel)]="environment.name" (ngModelChange)="getEnvironmentPipelines()">
+              <mat-option *ngFor="let item of environments" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </div>
+          <div class="col-9">
+            <mat-label>Available US to Deploy</mat-label>
+            <mat-select [(ngModel)]="MRSelected">
+              <mat-option *ngFor="let item of mergeRequests" [value]="item.id">{{item.title}}</mat-option>
+            </mat-select>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-primary rounded-circle" [disabled]="onRelease" (click)="release()">
+              <i class="fas fa-rocket"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row p-2">
+          <div class="col-12">
+            <mat-progress-bar [mode]="progressBar.mode" [value]="progressBar.value"
+                              [color]="progressBar.color"></mat-progress-bar>
+          </div>
+        </div>
+        <div class="row p-2">
+          <div class="row p-1">
+            <div class="console">
+              <div class="console">Console</div>
+              <div class="console-body">
+                <div class="console-line">Last US: {{environment?.selectedPipeline?.ref | uppercase}}</div>
+                <div class="console-line"> Pipeline status: {{environment?.selectedPipeline?.status | uppercase}}</div>
+                <div class="console-line"> Pipeline link: <a *ngIf="environment?.selectedPipeline?.web_url"
+                                                             [href]="environment?.selectedPipeline?.web_url"
+                                                             target="_blank">  {{ 'Gitlab' | uppercase}} </a></div>
+                <div class="console-line" *ngFor="let job of environment?.jobs; trackBy: trackByFunction">
+                  <div class="col">
+                    Task: {{job?.name | uppercase}} | Status:
+                    <span [style.color]="getStatusColor(job.status)">{{job.status | uppercase}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+</div>

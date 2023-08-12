@@ -1,0 +1,21 @@
+.console {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #000;
+  color: #fff;
+  font-family: monospace;
+  padding: 10px;
+  height: auto;
+  overflow-y: auto;
+}
+
+.console-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.console-line {
+  padding: 5px 0;
+  border-bottom: 1px dashed #ccc;
+}
