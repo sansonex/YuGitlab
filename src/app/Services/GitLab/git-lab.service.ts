@@ -72,16 +72,15 @@ export class GitLabService {
   }
 
   async createRelease(releaseRequest: CreateReleaseRequest) {
-    console.log(releaseRequest);
     // get curDate in format YYYY-MM-DD-HH-mm
     const curDate = new Date();
     const curDateStr = curDate.getFullYear() + '-' + (curDate.getMonth() + 1) + '-' + curDate.getDate() + '-' + curDate.getHours() + '-' + curDate.getMinutes();
 
-    var branches = await this.searchBranchByNames(`release/${releaseRequest.sourceBranchName.split('/')[1]}`);
+    const branches = await this.searchBranchByNames(`release/${releaseRequest.sourceBranchName.split('/')[1]}`);
     const version = branches.length + 1;
 
     const branchName = `release/${releaseRequest.sourceBranchName.split('/')[1]}/V${version}`;
 
-    return this.httpClient.post(`https://gitlab.com/api/v4/projects/${this.settingsService.getSettings().projectId}/repository/branches?branch=${branchName}&ref=${releaseRequest.sourceBranchName}`, {}, {headers: this.HEADER})
+    return this.httpClient.post(`https://gitlab.com/api/v4/projects/${this.settingsService.getSettings().projectId}/repository/branches?branch=${branchName}&ref=${releaseRequest.sourceBranchName}`, {}, {headers: this.HEADER}).toPromise()
   }
 }

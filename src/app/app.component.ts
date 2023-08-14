@@ -148,6 +148,8 @@ export class AppComponent implements OnInit {
       this.timeoutId = setTimeout(() => {
         this.getEnvironmentPipelines();
       }, 5000);
+    }, (e) => {
+      console.log(e)
     });
   }
 
